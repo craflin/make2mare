@@ -6,7 +6,7 @@
 #include "Make.h"
 #include "Mare.h"
 
-int_t main(int_t argc, char_t* argv[])
+int main(int argc, char* argv[])
 {
   // parse args
   HashMap<String, String> configurations;
@@ -24,10 +24,10 @@ int_t main(int_t argc, char_t* argv[])
     {
       String configName = arg;
       String makeArgs;
-      const char_t* colon = configName.find(':');
+      const char* colon = configName.find(':');
       if(colon)
       {
-        size_t colonIndex = colon - (const char_t*)configName;
+        size_t colonIndex = colon - (const char*)configName;
         configName = arg.substr(0, colonIndex);
         makeArgs = arg.substr(colonIndex + 1);
       }

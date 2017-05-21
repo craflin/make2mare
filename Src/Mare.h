@@ -14,7 +14,7 @@ class Mare
 public:
   Mare(const String& configuration, const Make& make);
 
-  void_t generateMare(const String& outputFile);
+  void generateMare(const String& outputFile);
 
 private:
   class Configruation
@@ -57,11 +57,11 @@ private:
   File file;
 
 private:
-  void_t addTarget(const Make::Target& makeTarget);
+  void addTarget(const Make::Target& makeTarget);
 
-  void_t fileOpen(const String& path);
-  void_t fileWrite(const String& data);
-  void_t fileWrite(const String& tabs, const Variant& data);
+  void fileOpen(const String& path);
+  void fileWrite(const String& data);
+  void fileWrite(const String& tabs, const Variant& data);
 
-  void_t addHashSet(Variant& variant, const HashSet<String>& set);
+  void addHashSet(Variant& variant, const HashSet<String>& set);
 };

@@ -16,7 +16,7 @@ Mare::Mare(const String& configuration, const Make& make)
   }
 }
 
-void_t Mare::addTarget(const Make::Target& makeTarget)
+void Mare::addTarget(const Make::Target& makeTarget)
 {
   String extension = File::extension(makeTarget.outputFile);
   String targetName = File::basename(makeTarget.outputFile, extension);
@@ -70,7 +70,7 @@ void_t Mare::addTarget(const Make::Target& makeTarget)
       {
         if(fileBuildDir.length() > buildDir.length() && fileBuildDir.startsWith(buildDir))
         {
-          char_t lastChar = ((const char_t*)fileBuildDir)[buildDir.length()];
+          char lastChar = ((const char*)fileBuildDir)[buildDir.length()];
           if(lastChar == '/' || lastChar == '\\')
             break;
         }
@@ -108,7 +108,7 @@ void_t Mare::addTarget(const Make::Target& makeTarget)
       file.buildDir.clear();
     else if(file.buildDir.length() > buildDir.length() && file.buildDir.startsWith(buildDir))
     {
-      char_t lastChar = ((const char_t*)file.buildDir)[buildDir.length()];
+      char lastChar = ((const char*)file.buildDir)[buildDir.length()];
       if(lastChar == '/' || lastChar == '\\')
         file.buildDir = String("$(buildDir)") + file.buildDir.substr(buildDir.length());
     }
@@ -155,25 +155,25 @@ void_t Mare::addTarget(const Make::Target& makeTarget)
   }
 }
 
-void_t Mare::fileOpen(const String& path)
+void Mare::fileOpen(const String& path)
 {
   if(!file.open(path))
   {
-    Console::errorf("Could not open output file %s: %s\n", (const char_t*)path, Error::getErrorString());
+    Console::errorf("Could not open output file %s: %s\n", (const char*)path, (const char*)Error::getErrorString());
     Process::exit(1);
   }
 }
 
-void_t Mare::fileWrite(const String& data)
+void Mare::fileWrite(const String& data)
 {
   if(!file.write(data))
   {
-    Console::errorf("Could not write to output file: %s\n", Error::getErrorString());
+    Console::errorf("Could not write to output file: %s\n", (const char*)Error::getErrorString());
     Process::exit(1);
   }
 }
 
-void_t Mare::fileWrite(const String& tabs, const Variant& data)
+void Mare::fileWrite(const String& tabs, const Variant& data)
 {
   const HashMap<String, Variant>& dataVar = data.toMap();
   for(HashMap<String, Variant>::Iterator i = dataVar.begin(), end = dataVar.end(); i != end; ++i)
@@ -204,14 +204,14 @@ void_t Mare::fileWrite(const String& tabs, const Variant& data)
   }
 }
 
-void_t Mare::addHashSet(Variant& variant, const HashSet<String>& set)
+void Mare::addHashSet(Variant& variant, const HashSet<String>& set)
 {
   List<Variant>& listVar = variant.toList();
   for(HashSet<String>::Iterator i = set.begin(), end = set.end(); i != end; ++i)
     listVar.append(*i);
 }
 
-void_t Mare::generateMare(const String& outputFile)
+void Mare::generateMare(const String& outputFile)
 {
   Variant data;
   HashMap<String, Variant>& targetsVar = data.toMap().append("targets", Variant()).toMap();

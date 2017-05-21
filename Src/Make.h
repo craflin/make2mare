@@ -36,12 +36,12 @@ public:
   List<Target> targets;
 
 public:
-  bool_t load(const String& makeArgs);
-  void_t parse();
+  bool load(const String& makeArgs);
+  void parse();
 
   /*
 
-  void_t processData()
+  void processData()
   {
     for(HashMap<String, Target>::Iterator i = targets.begin(), end = targets.end(); i != end; ++i)
     {
@@ -50,7 +50,7 @@ public:
     }
   }
 
-  void_t processData(Target& target)
+  void processData(Target& target)
   {
     // removed object files that are not used as input files
     for(HashMap<String, SourceFile>::Iterator i = target.files.begin(), end = target.files.end(); i != end;)
@@ -106,7 +106,7 @@ public:
     target.defines.swap(defines);
   }
 
-  void_t generateMare(Mare& mare, const String& outputFile)
+  void generateMare(Mare& mare, const String& outputFile)
   {
     fileOpen(outputFile);
     fileWrite("targets = {\n");
@@ -121,5 +121,5 @@ private:
 
 private:
   static String buildFilePath(const String& rootDir, const String& cwd, const String& inputPath);
-  static void_t splitArgs(const String& command, HashSet<String>& args);
+  static void splitArgs(const String& command, HashSet<String>& args);
 };

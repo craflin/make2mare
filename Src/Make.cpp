@@ -4,7 +4,7 @@
 
 #include "Make.h"
 
-bool_t Make::load(const String& makeArgs)
+bool Make::load(const String& makeArgs)
 {
   Process process;
   if(!process.open(String("make -B -n -w ") + makeArgs, Process::stdoutStream))
@@ -14,20 +14,20 @@ bool_t Make::load(const String& makeArgs)
   size_t bufferSize = 0;
   size_t i;
   String line;
-  while((i = process.read((byte_t*)buffer + bufferSize, buffer.size() - bufferSize)) > 0)
+  while((i = process.read((byte*)buffer + bufferSize, buffer.size() - bufferSize)) > 0)
   {
     bufferSize += i;
     for(;;)
     {
-      const char_t* start = (const char_t*)(const byte_t*)buffer;
-      const char_t* end = String::find(start, '\n');
+      const char* start = (const char*)(const byte*)buffer;
+      const char* end = String::find(start, '\n');
       if(!end)
       {
         if(bufferSize == buffer.size())
           buffer.resize(buffer.size() * 2);
         break;
       }
-      *(char_t*)end = '\0';
+      *(char*)end = '\0';
       size_t len = end - start;
       line.attach(start, len);
       lines.append(line);
@@ -39,7 +39,7 @@ bool_t Make::load(const String& makeArgs)
   return true;
 }
 
-void_t Make::parse()
+void Make::parse()
 {
   HashMap<String, SourceFile> files;
   HashSet<String> args;
@@ -55,13 +55,13 @@ void_t Make::parse()
     const String& tool = args.front();
     if(tool.startsWith("make[") || tool.startsWith("make:"))
     {
-      const char_t* dir = tool.find("Entering directory");
+      const char* dir = tool.find("Entering directory");
       if(dir)
       {
         dir += 18;
         while(String::find(" '\"`", *dir))
           ++dir;
-        const char_t* end = String::findOneOf(dir, dir[-1] == ' ' ? " '\"`" : "'\"`");
+        const char* end = String::findOneOf(dir, dir[-1] == ' ' ? " '\"`" : "'\"`");
         cwd = File::simplifyPath(String(dir, end ? end - dir : String::length(dir)));
         cwdStack.append(cwd);
         if(rootDir.isEmpty())
@@ -184,10 +184,10 @@ String Make::buildFilePath(const String& rootDir, const String& cwd, const Strin
   return relPath.startsWith("..") ? path : relPath;
 }
 
-void_t Make::splitArgs(const String& command, HashSet<String>& args)
+void Make::splitArgs(const String& command, HashSet<String>& args)
 {
   args.clear();
-  const char_t* str = command;
+  const char* str = command;
   for(;;)
   {
     while(String::isSpace(*str))
