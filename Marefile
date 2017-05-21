@@ -1,11 +1,13 @@
 
+buildDir = "Build/$(configuration)/.$(target)"
+
 targets = {
 
   make2mare = cppApplication + {
     dependencies = { "libnstd" }
-    buildDir = "Build/$(configuration)"
+    outputDir = "Build/$(configuration)"
     includePaths = { "Ext/libnstd/include" }
-    libPaths = { "Build/$(configuration)/libnstd" }
+    libPaths = { "Build/$(configuration)/.libnstd" }
     libs = { "nstd" }
     root = "Src"
     files = {
@@ -24,7 +26,6 @@ targets = {
   libnstd = cppStaticLibrary + {
     folder = "Libraries"
     includePaths = { "Ext/libnstd/include" }
-    buildDir = "Build/$(configuration)/$(target)"
     root = { "Ext/libnstd/src", "Ext/libnstd/include/nstd" }
     files = {
       "Ext/libnstd/src/*.cpp" = cppSource,
